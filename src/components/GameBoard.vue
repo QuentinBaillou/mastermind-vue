@@ -32,7 +32,6 @@
     <button
       @click="submitGuess"
       class="game-board__guess"
-      v-show="isPropositionComplete"
     >
       Guess !
     </button>
@@ -57,9 +56,6 @@ function toggleColorsList(colorNumber) {
 
 // Return true or false, depending on if there is an error message or not
 const isError = computed(() => error.value.length !== 0);
-const isPropositionComplete = computed(() => {
-  return !proposition.value.includes("");
-});
 
 // Change the color of targeted guessed color
 function changeColor(color, index) {

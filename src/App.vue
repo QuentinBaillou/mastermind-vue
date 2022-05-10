@@ -1,5 +1,9 @@
 <template>
-  <GameBoard @propose="propose" />
+  <h1 class="main-title">Mastermind</h1>
+  <GameBoard @propose="propose" v-if="!end && !win"/>
+  <p class="message" v-else-if="end && !win">Perdu !</p>
+  <p class="message" v-else>Gagné !</p>
+  <p class="round" v-show="!end && !win">Round {{ roundNumber }}</p>
   <ul class="previous-result">
     <SinglePreviousResult
       v-for="(oldProposition, index) of oldPropositions"
@@ -20,6 +24,9 @@ import SinglePreviousResult from "./components/SinglePreviousResult.vue";
 
 const answer = ref([]);
 const oldPropositions = ref([]);
+const roundNumber = ref(1);
+const end = ref(false);
+const win = ref(false);
 
 onMounted(() => {
   answer.value = giveRandomColors();
@@ -27,33 +34,59 @@ onMounted(() => {
 });
 
 function propose(data) {
-  console.log(data);
+  roundNumber.value++;
   const result = test([...data], answer.value);
-  console.log(result);
+
   const proposition = {
     colors: [...data],
     wellPlaced: result[0],
     misplaced: result[1],
   };
+
   oldPropositions.value.unshift(proposition);
+
+  if (roundNumber.value <= 12) {
+    if (proposition.wellPlaced === 5) {
+      win.value = true;
+    }
+  } else {
+    end.value = true;
+  }
 }
 </script>
 
 <style lang="scss">
 #app {
+  position: relative;
   width: 100%;
   height: 100%;
-  background-color: #0d1117;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  background-color: #0d1117;
+}
+.main-title {
+  position: absolute;
+  left: 1rem;
+  color: white;
+}
+.round {
+  position: absolute;
+  bottom: calc(40vh + 2rem);
+  font-size: 1.5rem;
+  color: white;
 }
 .previous-result {
-  height: 50vh;
+  position: absolute;
+  bottom: 1rem;
+  height: 40vh;
   overflow: auto;
   padding: 0;
   margin: 2rem auto;
   list-style: none;
+}
+.message {
+  color: white;
+  font-size: 3rem;
 }
 </style>
