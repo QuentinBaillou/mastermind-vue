@@ -29,80 +29,62 @@
       </li>
     </ul>
     <p v-show="isError" class="error">{{ error }}</p>
-    <button
-      @click="submitGuess"
-      class="game-board__guess"
-    >
-      Guess !
-    </button>
+    <button @click="submitGuess" class="game-board__guess">Guess !</button>
   </div>
 </template>
 
 
 <script setup>
-import { computed, ref, defineEmits, defineProps } from "vue";
 import colorsArray from "@/utils/colors";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
-const emit = defineEmits(["propose"]);
-const error = ref("");
-const proposition = ref(["", "", "", "", ""]);
-const colorsPalletStatus = ref([true, true, true, true, true]);
+const store = useStore();
 
-// Display or hide list of color under proposition
-function toggleColorsList(colorNumber) {
-  colorsPalletStatus.value[colorNumber] =
-    !colorsPalletStatus.value[colorNumber];
-}
+const proposition = computed(() => store.state.board.proposition);
+const colorsPalletStatus = computed(() => store.state.board.colorsPalletStatus);
+const error = computed(() => store.state.board.error);
+const isError = computed(() => store.state.board.isError);
 
-// Return true or false, depending on if there is an error message or not
-const isError = computed(() => error.value.length !== 0);
+const toggleColorsList = (colorIndex) =>
+  store.commit("toggleColorsList", colorIndex);
 
-// Change the color of targeted guessed color
-function changeColor(color, index) {
-  proposition.value[index] = color;
-}
+const changeColor = (color, index) =>
+  store.commit("changeColor", { index, color });
 
-// Check if a color is missing and emit the result
-function submitGuess() {
-  for (const color of proposition.value) {
-    if (color === "") {
-      error.value = "Vous n'avez pas indiqué toute les couleurs";
-      return false;
-    }
-  }
-
-  error.value = "";
-  console.log("emit");
-  emit("propose", proposition.value);
-}
+const submitGuess = () => store.dispatch("submitGuess");
 </script>
 
 
 <style lang="scss" scoped>
+  .container {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 .title {
+  margin: 1rem 0;
   font-size: 1.5rem;
-  margin: 1rem;
   color: white;
-}
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .game-board {
   display: flex;
+  flex-grow: 1;
+  margin: 0;
   gap: 1rem;
   list-style: none;
   padding: 0;
 
   &__proposition {
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 1rem;
-    position: relative;
   }
 
   &__guessed-color {
@@ -138,9 +120,6 @@ function submitGuess() {
   }
 
   &__guess {
-    position: absolute;
-    right: -8rem;
-    top: 65px;
     cursor: pointer;
     height: 60px;
     width: fit-content;
@@ -160,6 +139,7 @@ function submitGuess() {
 }
 
 .error {
+  margin-top: 270px;
   color: #fff;
   font-size: 1.2rem;
 }

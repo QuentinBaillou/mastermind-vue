@@ -1,6 +1,6 @@
 <template>
   <h1 class="main-title">Mastermind</h1>
-  <GameBoard @propose="propose" v-if="!end && !win"/>
+  <GameBoard v-if="!end && !win" />
   <p class="message" v-else-if="end && !win">Perdu !</p>
   <p class="message" v-else>Gagné !</p>
   <p class="round" v-show="!end && !win">Round {{ roundNumber }}</p>
@@ -16,43 +16,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { giveRandomColors, test } from "@/utils/gameFunctions";
+import { computed, onMounted } from "vue";
 import "./styles/style.scss";
 import GameBoard from "./components/GameBoard.vue";
 import SinglePreviousResult from "./components/SinglePreviousResult.vue";
+import { useStore } from "vuex";
 
-const answer = ref([]);
-const oldPropositions = ref([]);
-const roundNumber = ref(1);
-const end = ref(false);
-const win = ref(false);
+const store = useStore();
+
+const roundNumber = computed(() => store.state.roundNumber);
+const oldPropositions = computed(() => store.state.oldPropositions);
+const win = computed(() => store.state.win);
+const end = computed(() => store.state.end);
 
 onMounted(() => {
-  answer.value = giveRandomColors();
-  console.log(answer.value);
+  store.dispatch("getNewAnswer");
 });
-
-function propose(data) {
-  roundNumber.value++;
-  const result = test([...data], answer.value);
-
-  const proposition = {
-    colors: [...data],
-    wellPlaced: result[0],
-    misplaced: result[1],
-  };
-
-  oldPropositions.value.unshift(proposition);
-
-  if (roundNumber.value <= 12) {
-    if (proposition.wellPlaced === 5) {
-      win.value = true;
-    }
-  } else {
-    end.value = true;
-  }
-}
 </script>
 
 <style lang="scss">
@@ -71,18 +50,16 @@ function propose(data) {
   color: white;
 }
 .round {
-  position: absolute;
-  bottom: calc(40vh + 2rem);
+  margin: 1rem;
   font-size: 1.5rem;
   color: white;
 }
 .previous-result {
-  position: absolute;
-  bottom: 1rem;
+  flex-grow: 1;
   height: 40vh;
-  overflow: auto;
   padding: 0;
-  margin: 2rem auto;
+  margin: 0 auto;
+  overflow: auto;
   list-style: none;
 }
 .message {
