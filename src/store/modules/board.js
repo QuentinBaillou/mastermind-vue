@@ -13,7 +13,6 @@ export const board = {
     },
 
     changeColor(state, payload) {
-      console.log(payload.color);
       state.proposition[payload.index] = payload.color;
     },
 
@@ -35,7 +34,6 @@ export const board = {
           commit('toggleErrorStatus', true);
           break;
         }
-        console.log('colorNumber++');
         colorNumber++;
       }
 

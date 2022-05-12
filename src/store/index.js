@@ -34,6 +34,18 @@ export default createStore({
     setEnd(state, status) {
       state.end = status;
     },
+
+    reset(state) {
+      state.oldPropositions.length = 0;
+      state.win = false;
+      state.end = false;
+      state.roundNumber = 1;
+      console.log('state fini');
+      for (const index in state.board.proposition) {
+        state.board.proposition[index] = '';
+        state.board.colorsPalletStatus[index] = true;
+      }
+    },
   },
 
   actions: {
@@ -51,8 +63,6 @@ export default createStore({
         misplaced: result[1],
       };
 
-      console.log(proposition.colors);
-
       commit('addProposition', proposition);
 
       if (state.roundNumber <= 12) {
@@ -62,6 +72,13 @@ export default createStore({
       } else {
         commit('setEnd', true);
       }
+
+      console.log(state.answer);
+    },
+
+    reset({ commit, dispatch }) {
+      dispatch('getNewAnswer');
+      commit('reset');
     },
   },
 

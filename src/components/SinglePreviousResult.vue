@@ -40,7 +40,7 @@ defineProps({
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  margin: 0.5rem;
+  margin-bottom: 0.5rem;
   background-color: #ffffffd2;
   border-radius: 1rem;
 

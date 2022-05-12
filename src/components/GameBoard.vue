@@ -59,7 +59,7 @@ const submitGuess = () => store.dispatch("submitGuess");
 <style lang="scss" scoped>
   .container {
     position: relative;
-    height: 60vh;
+    min-height: 522px;
     display: flex;
     flex-direction: column;
     align-items: center;
