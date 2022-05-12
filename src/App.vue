@@ -88,7 +88,7 @@ onMounted(() => {
 }
 .previous-results {
   padding: 5px;
-  margin: 0 auto;
+  margin: 0.5rem auto 0;
   list-style: none;
   background-color: #ffffff55;
   border-top-left-radius: 1rem;
