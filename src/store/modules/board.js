@@ -1,8 +1,8 @@
 export const board = {
   state: {
-    proposition: ['', '', '', '', ''],
+    proposition: ['', '', '', ''],
     error: '',
-    colorsPalletStatus: [true, true, true, true, true],
+    colorsPalletStatus: [true, true, true, true],
     isError: false,
   },
 

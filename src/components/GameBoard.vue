@@ -29,7 +29,7 @@
       </li>
     </ul>
     <p v-show="isError" class="error">{{ error }}</p>
-    <button @click="submitGuess" class="game-board__guess">Guess !</button>
+    <button @click="submitGuess" class="main-button">Guess !</button>
   </div>
 </template>
 
@@ -118,24 +118,12 @@ const submitGuess = () => store.dispatch("submitGuess");
       border-radius: 50%;
     }
   }
+}
 
-  &__guess {
-    cursor: pointer;
-    height: 60px;
-    width: fit-content;
-    padding: 0.5rem 1rem;
-    color: #fff;
-    font-size: 1.2rem;
-    border-radius: 3rem;
-    background-color: chocolate;
-    border: none;
-    transition: 0.2s;
-
-    &:hover {
-      transform: scale(1.2);
-      box-shadow: 1px 1px 10px orange;
-    }
-  }
+.main-button {
+  font-size: 1.2rem;
+  padding: 1rem;
+  border-radius: 3rem;
 }
 
 .error {

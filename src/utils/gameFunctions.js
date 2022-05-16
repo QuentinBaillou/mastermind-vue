@@ -1,7 +1,7 @@
 import baseColors from './colors';
 export function giveRandomColors() {
   let colors = [];
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 4; index++) {
     const colorIndex = Math.floor(Math.random() * 6);
     colors.push(baseColors[colorIndex]);
   }

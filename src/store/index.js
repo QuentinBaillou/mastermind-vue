@@ -10,6 +10,7 @@ export default createStore({
     roundNumber: 1,
     end: false,
     win: false,
+    rulesOpen: false,
   },
 
   getters: {},
@@ -33,6 +34,10 @@ export default createStore({
 
     setEnd(state, status) {
       state.end = status;
+    },
+
+    toggleRulesState(state) {
+      state.rulesOpen = !state.rulesOpen;
     },
 
     reset(state) {
