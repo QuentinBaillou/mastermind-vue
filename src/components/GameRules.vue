@@ -2,7 +2,7 @@
   <div class="game-rules">
     <h2 class="game-rules__title">But du jeu !</h2>
     <p class="game-rules__text">
-      Le but du jeu est de retrouver la combinaison de trois couleurs proposée
+      Le but du jeu est de retrouver la combinaison de trois couleurs proposées
       par l'ordinateur. Celui-ci nous donnera des indications sur les couleurs
       bien et mal placées à chaque étape. Vous avez 12 tours. Bonne chance !
     </p>
