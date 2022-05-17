@@ -71,7 +71,7 @@ export default createStore({
       commit('addProposition', proposition);
 
       if (state.roundNumber <= 12) {
-        if (proposition.wellPlaced === 5) {
+        if (proposition.wellPlaced === state.board.proposition.length) {
           commit('setWin', true);
         }
       } else {
